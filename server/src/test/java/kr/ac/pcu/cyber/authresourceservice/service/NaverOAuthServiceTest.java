@@ -68,7 +68,8 @@ class NaverOAuthServiceTest {
                 () -> assertNotNull(tokenData.getAccessToken()),
                 () -> assertNotNull(tokenData.getRefreshToken()),
                 () -> assertNotNull(tokenData.getEmail()),
-                () -> assertNotNull(tokenData.getName())
+                () -> assertNotNull(tokenData.getName()),
+                () -> assertNull(tokenData.getProfileImage())
         );
     }
 

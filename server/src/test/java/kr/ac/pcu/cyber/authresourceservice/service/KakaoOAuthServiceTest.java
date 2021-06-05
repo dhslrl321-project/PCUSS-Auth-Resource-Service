@@ -39,6 +39,7 @@ class KakaoOAuthServiceTest {
         Map<String, Object> kakao_account = new HashMap<>();
 
         properties.put("nickname", "nickname");
+        properties.put("profile_image", "profileImage");
         kakao_account.put("email", "email");
 
         KakaoProfileResponseData kakaoProfileResponseData = KakaoProfileResponseData.builder()
@@ -71,7 +72,8 @@ class KakaoOAuthServiceTest {
                 () -> assertNotNull(tokenData.getAccessToken()),
                 () -> assertNotNull(tokenData.getRefreshToken()),
                 () -> assertNotNull(tokenData.getEmail()),
-                () -> assertNotNull(tokenData.getName())
+                () -> assertNotNull(tokenData.getName()),
+                () -> assertNotNull(tokenData.getProfileImage())
         );
     }
 }

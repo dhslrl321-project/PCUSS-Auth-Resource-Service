@@ -40,11 +40,7 @@ class OAuthControllerTest {
                 .build();
 
         given(tokenService.oauth(any(SocialType.class), any(OAuthRequestData.class)))
-                .will(invocation -> {
-                    OAuthRequestData requestData = invocation.getArgument(1);
-
-                    return oAuthResponseData;
-                });
+                .willReturn(oAuthResponseData);
     }
 
     @Test

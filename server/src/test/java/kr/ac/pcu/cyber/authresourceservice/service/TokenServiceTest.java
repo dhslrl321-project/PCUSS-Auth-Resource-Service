@@ -66,14 +66,14 @@ class TokenServiceTest {
                 .profileImage("profileImage")
                 .build();
 
-        Optional<Token> token = Optional.of(Token.builder()
+        Token token = Token.builder()
                 .id(1L)
                 .accessToken("access")
                 .refreshToken("refresh")
                 .tokenId("tokenId")
                 .type("type")
                 .UUID("uuid")
-                .build());
+                .build();
 
         given(userServiceClient.login(anyString()))
                 .willReturn(loginResponse);
@@ -91,7 +91,7 @@ class TokenServiceTest {
                 .willReturn(tokenData);
 
         given(tokenRepository.findByTokenIdAndType(anyString(), eq("kakao")))
-                .willReturn(token);
+                .willReturn(Optional.of(token));
 
         given(tokenRepository.findByTokenIdAndType(anyString(), eq("google")))
                 .willReturn(Optional.empty());
