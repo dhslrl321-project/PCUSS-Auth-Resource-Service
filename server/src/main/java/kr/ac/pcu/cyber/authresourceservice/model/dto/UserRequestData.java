@@ -10,5 +10,5 @@ import lombok.*;
 public class UserRequestData {
     private String email;
     private String nickname;
-    private String pictureUrl;
+    private String profileImage;
 }

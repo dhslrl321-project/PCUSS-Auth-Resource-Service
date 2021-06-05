@@ -50,6 +50,7 @@ public class KakaoOAuthService implements OAuthService {
                 .refreshToken(tokenResponseData.getRefresh_token())
                 .name((String) profileResponseData.getProperties().get("nickname"))
                 .email((String) profileResponseData.getKakao_account().get("email"))
+                .profileImage((String) profileResponseData.getProperties().get("profile_image"))
                 .build();
     }
 }

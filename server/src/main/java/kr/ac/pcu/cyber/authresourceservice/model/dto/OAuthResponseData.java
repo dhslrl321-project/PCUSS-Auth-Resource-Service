@@ -8,6 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuthResponseData {
+    private Long id;
     private String jwtAccessToken;
     private String jwtRefreshToken;
+    private String nickname;
+    private String profileImage;
 }

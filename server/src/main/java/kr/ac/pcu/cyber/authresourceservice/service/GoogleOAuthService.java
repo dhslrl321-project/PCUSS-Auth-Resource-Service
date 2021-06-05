@@ -50,6 +50,7 @@ public class GoogleOAuthService implements OAuthService {
                 .refreshToken(tokenResponseData.getRefresh_token())
                 .name(profileResponseData.getName())
                 .email(profileResponseData.getEmail())
+                .profileImage(profileResponseData.getPicture())
                 .build();
     }
 }

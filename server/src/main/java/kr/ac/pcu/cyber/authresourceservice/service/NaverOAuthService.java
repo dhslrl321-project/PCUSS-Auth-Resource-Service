@@ -50,6 +50,7 @@ public class NaverOAuthService implements OAuthService {
                 .refreshToken(tokenResponseData.getRefresh_token())
                 .email((String) profileResponseData.getResponse().get("email"))
                 .name((String) profileResponseData.getResponse().get("name"))
+                .profileImage(null)
                 .build();
     }
 }

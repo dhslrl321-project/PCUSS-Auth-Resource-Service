@@ -13,5 +13,5 @@ public class UserResponseData {
     private String accessToken;
     private String refreshToken;
     private String nickname;
-    private String profileUrl;
+    private String profileImage;
 }
