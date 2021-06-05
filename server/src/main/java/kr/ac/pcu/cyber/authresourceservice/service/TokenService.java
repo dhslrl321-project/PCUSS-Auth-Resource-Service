@@ -46,8 +46,7 @@ public class TokenService {
         token.ifPresentOrElse(item -> {
             context.userResponseData = userServiceClient.login(item.getUUID());
 
-            item.setAccessToken(tokenData.getAccessToken());
-            item.setRefreshToken(tokenData.getRefreshToken());
+            item.update(tokenData.getAccessToken(), tokenData.getRefreshToken());
 
             tokenRepository.save(item);
         }, () -> {

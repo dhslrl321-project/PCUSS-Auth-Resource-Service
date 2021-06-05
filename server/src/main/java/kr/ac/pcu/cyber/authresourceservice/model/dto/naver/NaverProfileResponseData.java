@@ -5,11 +5,9 @@ import lombok.*;
 import java.util.Map;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class NaverProfileResponseData {
     private String resultcode;
     private String message;
