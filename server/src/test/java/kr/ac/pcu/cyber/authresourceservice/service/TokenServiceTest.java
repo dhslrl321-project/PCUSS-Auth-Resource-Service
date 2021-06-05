@@ -1,12 +1,6 @@
 package kr.ac.pcu.cyber.authresourceservice.service;
 
 import kr.ac.pcu.cyber.authresourceservice.client.UserServiceClient;
-import kr.ac.pcu.cyber.authresourceservice.client.google.GoogleApiClient;
-import kr.ac.pcu.cyber.authresourceservice.client.google.GoogleAuthClient;
-import kr.ac.pcu.cyber.authresourceservice.client.kakao.KakaoApiClient;
-import kr.ac.pcu.cyber.authresourceservice.client.kakao.KakaoAuthClient;
-import kr.ac.pcu.cyber.authresourceservice.client.naver.NaverApiClient;
-import kr.ac.pcu.cyber.authresourceservice.client.naver.NaverAuthClient;
 import kr.ac.pcu.cyber.authresourceservice.common.SocialType;
 import kr.ac.pcu.cyber.authresourceservice.factory.OAuthServiceFactory;
 import kr.ac.pcu.cyber.authresourceservice.model.dto.OAuthRequestData;
@@ -29,7 +23,6 @@ import static org.mockito.Mockito.mock;
 
 class TokenServiceTest {
 
-
     private final KakaoOAuthService kakaoOAuthService = mock(KakaoOAuthService.class);
     private final NaverOAuthService naverOAuthService = mock(NaverOAuthService.class);
     private final GoogleOAuthService googleOAuthService = mock(GoogleOAuthService.class);
@@ -39,6 +32,9 @@ class TokenServiceTest {
     private final TokenRepository tokenRepository = mock(TokenRepository.class);
     private TokenService tokenService;
 
+    private final OAuthRequestData oAuthRequestData = OAuthRequestData.builder()
+            .code("authorization_code")
+            .build();
 
     @BeforeEach
     void setUp() {
@@ -79,10 +75,6 @@ class TokenServiceTest {
                 .UUID("uuid")
                 .build());
 
-        UserResponseData userResponseData = UserResponseData.builder()
-                .userId("userId")
-                .build();
-
         given(userServiceClient.login(anyString()))
                 .willReturn(loginResponse);
 
@@ -109,10 +101,6 @@ class TokenServiceTest {
 
     @Test
     void login_with_token_service_oauth() {
-        OAuthRequestData oAuthRequestData = OAuthRequestData.builder()
-                .code("authorization_code")
-                .build();
-
         OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("KAKAO"), oAuthRequestData);
 
         assertAll(
@@ -127,10 +115,6 @@ class TokenServiceTest {
 
     @Test
     void register_with_token_service_oauth() {
-        OAuthRequestData oAuthRequestData = OAuthRequestData.builder()
-                .code("authorization_code")
-                .build();
-
         OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("GOOGLE"), oAuthRequestData);
 
         assertAll(
