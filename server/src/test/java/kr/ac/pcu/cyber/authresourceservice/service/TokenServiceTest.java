@@ -12,7 +12,9 @@ import kr.ac.pcu.cyber.authresourceservice.model.vo.TokenData;
 import kr.ac.pcu.cyber.authresourceservice.repository.TokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -31,6 +33,8 @@ class TokenServiceTest {
 
     private final TokenRepository tokenRepository = mock(TokenRepository.class);
     private TokenService tokenService;
+
+    MockHttpServletResponse response = new MockHttpServletResponse();
 
     private final OAuthRequestData oAuthRequestData = OAuthRequestData.builder()
             .code("authorization_code")
@@ -72,7 +76,7 @@ class TokenServiceTest {
                 .refreshToken("refresh")
                 .tokenId("tokenId")
                 .type("type")
-                .UUID("uuid")
+                .userId("uuid")
                 .build();
 
         given(userServiceClient.login(anyString()))
@@ -101,13 +105,11 @@ class TokenServiceTest {
 
     @Test
     void login_with_token_service_oauth() {
-        OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("KAKAO"), oAuthRequestData);
+        OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("KAKAO"), oAuthRequestData, response);
 
         assertAll(
                 () -> assertNotNull(oAuthResponseData),
                 () -> assertNotNull(oAuthResponseData.getId()),
-                () -> assertNotNull(oAuthResponseData.getJwtAccessToken()),
-                () -> assertNotNull(oAuthResponseData.getJwtRefreshToken()),
                 () -> assertNotNull(oAuthResponseData.getNickname()),
                 () -> assertNotNull(oAuthResponseData.getProfileImage())
         );
@@ -115,13 +117,11 @@ class TokenServiceTest {
 
     @Test
     void register_with_token_service_oauth() {
-        OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("GOOGLE"), oAuthRequestData);
+        OAuthResponseData oAuthResponseData = tokenService.oauth(SocialType.valueOf("GOOGLE"), oAuthRequestData, response);
 
         assertAll(
                 () -> assertNotNull(oAuthResponseData),
                 () -> assertNotNull(oAuthResponseData.getId()),
-                () -> assertNotNull(oAuthResponseData.getJwtAccessToken()),
-                () -> assertNotNull(oAuthResponseData.getJwtRefreshToken()),
                 () -> assertNotNull(oAuthResponseData.getNickname()),
                 () -> assertNotNull(oAuthResponseData.getProfileImage())
         );

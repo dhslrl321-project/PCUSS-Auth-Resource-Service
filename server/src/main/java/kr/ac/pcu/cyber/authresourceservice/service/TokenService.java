@@ -12,6 +12,8 @@ import kr.ac.pcu.cyber.authresourceservice.model.vo.TokenData;
 import kr.ac.pcu.cyber.authresourceservice.repository.TokenRepository;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -26,7 +28,7 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public OAuthResponseData oauth(SocialType type, OAuthRequestData requestData) {
+    public OAuthResponseData oauth(SocialType type, OAuthRequestData requestData, HttpServletResponse response) {
         OAuthService oAuthService = factory.createService(type);
 
         TokenData tokenData = oAuthService.oauth(requestData);
@@ -34,7 +36,7 @@ public class TokenService {
         UserRequestData userRequestData = UserRequestData.builder()
                 .nickname(tokenData.getName())
                 .email(tokenData.getEmail())
-                .profileImage(tokenData.getEmail())
+                .profileImage(tokenData.getProfileImage())
                 .build();
 
         Optional<Token> token = tokenRepository.findByTokenIdAndType(tokenData.getTokenId(), String.valueOf(type));
@@ -44,7 +46,7 @@ public class TokenService {
         };
 
         token.ifPresentOrElse(item -> {
-            context.userResponseData = userServiceClient.login(item.getUUID());
+            context.userResponseData = userServiceClient.login(item.getUserId());
 
             item.update(tokenData.getAccessToken(), tokenData.getRefreshToken());
 
@@ -57,10 +59,10 @@ public class TokenService {
             tokenRepository.save(item);
         });
 
+        addCookieInResponse(response, context.userResponseData.getAccessToken(), context.userResponseData.getRefreshToken());
+
         return OAuthResponseData.builder()
                 .id(context.userResponseData.getId())
-                .jwtAccessToken(context.userResponseData.getAccessToken())
-                .jwtRefreshToken(context.userResponseData.getRefreshToken())
                 .nickname(context.userResponseData.getNickname())
                 .profileImage(context.userResponseData.getProfileImage())
                 .build();
@@ -69,10 +71,35 @@ public class TokenService {
     private Token tokenBuilder(TokenData tokenData, UserResponseData userResponseData, String type) {
         return Token.builder()
                 .tokenId(tokenData.getTokenId())
-                .UUID(userResponseData.getUserId())
+                .userId(userResponseData.getUserId())
                 .type(type)
                 .accessToken(tokenData.getAccessToken())
                 .refreshToken(tokenData.getRefreshToken())
                 .build();
+    }
+
+    private void addCookieInResponse(HttpServletResponse response, String accessToken, String refreshToken) {
+        Cookie accessCookie = new Cookie("access_token", accessToken);
+        Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
+
+        accessCookieSetting(accessCookie);
+        refreshCookieSetting(refreshCookie);
+
+        response.addCookie(accessCookie);
+        response.addCookie(refreshCookie);
+    }
+
+    private void accessCookieSetting(Cookie cookie) {
+        cookie.setMaxAge(24 * 60 * 60);
+
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+    }
+
+    private void refreshCookieSetting(Cookie cookie) {
+        cookie.setMaxAge(30 * 24 * 60 * 60);
+
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
     }
 }

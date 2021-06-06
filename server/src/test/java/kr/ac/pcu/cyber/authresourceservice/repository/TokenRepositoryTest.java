@@ -16,7 +16,7 @@ class TokenRepositoryTest {
 
     Token token = Token.builder()
             .id(1L)
-            .UUID("uuid")
+            .userId("uuid")
             .type("type")
             .tokenId("tokenId")
             .accessToken("accessToken")
@@ -37,7 +37,7 @@ class TokenRepositoryTest {
 
         assertAll(
                 () -> assertNotNull(token.getId()),
-                () -> assertNotNull(token.getUUID()),
+                () -> assertNotNull(token.getUserId()),
                 () -> assertNotNull(token.getType()),
                 () -> assertNotNull(token.getTokenId()),
                 () -> assertNotNull(token.getAccessToken()),

@@ -13,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,11 +37,12 @@ class OAuthControllerTest {
     @BeforeEach
     void setUp() {
         OAuthResponseData oAuthResponseData = OAuthResponseData.builder()
-                .jwtAccessToken("JWT ACCESS TOKEN")
-                .jwtRefreshToken("JWT REFRESH TOKEN")
+                .id(1L)
+                .nickname("nickname")
+                .profileImage("profileImage")
                 .build();
 
-        given(tokenService.oauth(any(SocialType.class), any(OAuthRequestData.class)))
+        given(tokenService.oauth(any(SocialType.class), any(OAuthRequestData.class), any(HttpServletResponse.class)))
                 .willReturn(oAuthResponseData);
     }
 
@@ -54,8 +57,9 @@ class OAuthControllerTest {
                         .content(objectMapper.writeValueAsString(requestData)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("jwtAccessToken").exists())
-                .andExpect(jsonPath("jwtRefreshToken").exists());
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("nickname").exists())
+                .andExpect(jsonPath("profileImage").exists());
     }
 
     @Test
@@ -69,8 +73,9 @@ class OAuthControllerTest {
                         .content(objectMapper.writeValueAsString(requestData)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("jwtAccessToken").exists())
-                .andExpect(jsonPath("jwtRefreshToken").exists());
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("nickname").exists())
+                .andExpect(jsonPath("profileImage").exists());
     }
 
     @Test
@@ -84,8 +89,9 @@ class OAuthControllerTest {
                         .content(objectMapper.writeValueAsString(requestData)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("jwtAccessToken").exists())
-                .andExpect(jsonPath("jwtRefreshToken").exists());
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("nickname").exists())
+                .andExpect(jsonPath("profileImage").exists());
     }
 
     @Test

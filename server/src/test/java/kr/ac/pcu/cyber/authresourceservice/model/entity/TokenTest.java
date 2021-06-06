@@ -8,7 +8,7 @@ class TokenTest {
 
     private final Token token = Token.builder()
             .id(1L)
-            .UUID("uuid")
+            .userId("uuid")
             .type("type")
             .tokenId("tokenId")
             .accessToken("accessToken")
