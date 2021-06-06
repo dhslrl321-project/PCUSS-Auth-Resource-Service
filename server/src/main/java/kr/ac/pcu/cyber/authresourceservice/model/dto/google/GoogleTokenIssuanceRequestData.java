@@ -3,6 +3,7 @@ package kr.ac.pcu.cyber.authresourceservice.model.dto.google;
 import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -3,10 +3,10 @@ package kr.ac.pcu.cyber.authresourceservice.model.dto.naver;
 import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class NaverTokenIssuanceResponseData {
     private String access_token;
     private String refresh_token;

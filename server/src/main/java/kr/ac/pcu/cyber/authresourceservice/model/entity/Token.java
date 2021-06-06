@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
