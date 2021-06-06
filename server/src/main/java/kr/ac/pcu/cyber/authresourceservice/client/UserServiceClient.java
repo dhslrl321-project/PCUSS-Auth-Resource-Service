@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface UserServiceClient {
 
-    @GetMapping(value = "/auth/login/{uuid}", consumes = "application/x-www-form-urlencoded")
+    @GetMapping(value = "/auth/login/{uuid}", consumes = "application/json")
     UserResponseData login(@PathVariable("uuid") String uuid);
 
-    @PostMapping(value = "/auth/register", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(value = "/auth/register", consumes = "application/json")
     UserResponseData register(@RequestBody UserRequestData requestData);
 }
