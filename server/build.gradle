@@ -1,0 +1,58 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'kr.ac.pcu.cyber'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2020.0.3")
+}
+
+dependencies {
+    // NOTE : Spring Boot Web Service
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+
+    // NOTE : Spring Cloud Eureka Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // NOTE : Spring Cloud Open Feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // NOTE : Spring Boot Data JPA
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+
+    // NOTE : MySQL Connector JAVA
+    implementation group: 'mysql', name: 'mysql-connector-java'
+
+    // NOTE : Spring Boot JDBC
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
