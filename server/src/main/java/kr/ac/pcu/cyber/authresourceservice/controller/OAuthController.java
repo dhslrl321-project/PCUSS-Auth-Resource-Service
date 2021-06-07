@@ -4,15 +4,10 @@ import kr.ac.pcu.cyber.authresourceservice.common.SocialType;
 import kr.ac.pcu.cyber.authresourceservice.model.dto.OAuthRequestData;
 import kr.ac.pcu.cyber.authresourceservice.model.dto.OAuthResponseData;
 import kr.ac.pcu.cyber.authresourceservice.service.TokenService;
-import org.apache.http.cookie.Cookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/oauth")
@@ -24,10 +19,10 @@ public class OAuthController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/{social_type}")
+    @PostMapping(value = "/{social_type}", produces = "application/json; charset-utf8")
     public ResponseEntity<OAuthResponseData> oauth(
             @PathVariable("social_type") SocialType type,
-            OAuthRequestData requestData,
+            @RequestBody OAuthRequestData requestData,
             HttpServletResponse response
     ) {
 
