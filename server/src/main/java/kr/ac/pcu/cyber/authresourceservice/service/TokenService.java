@@ -97,7 +97,7 @@ public class TokenService {
     }
 
     private void refreshCookieSetting(Cookie cookie) {
-        cookie.setMaxAge(30 * 24 * 60 * 60);
+        cookie.setMaxAge(14 * 24 * 60 * 60);
 
         cookie.setHttpOnly(true);
         cookie.setPath("/");
